@@ -25,6 +25,11 @@
 <ItemGroup>
 <Folder Include="Components" />
 <Folder Include="Migrations" />
+<Folder Include="Pages" />
+</ItemGroup>
+
+<ItemGroup>
+  <_ContentIncludedByDefault Remove="Pages\Shared\_Layout.cshtml" />
 </ItemGroup>
 
         </Project>

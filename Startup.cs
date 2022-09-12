@@ -1,7 +1,6 @@
 using System.Text.Json.Serialization;
 using Kernel.Modules;
 using Kernel.Shared;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.OpenApi.Models;
 
 namespace Kernel;
@@ -35,7 +34,6 @@ public class Startup
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "Watchify API endpoints", Version = "v1" });
             });
-            services.AddRazorPages();
 
         }
 
@@ -70,7 +68,6 @@ public class Startup
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
-                endpoints.MapRazorPages();
             });
         }
     }
