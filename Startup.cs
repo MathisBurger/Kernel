@@ -34,6 +34,8 @@ public class Startup
             {
                 options.SwaggerDoc("v1", new OpenApiInfo { Title = "Watchify API endpoints", Version = "v1" });
             });
+            services.AddRazorPages();
+            services.AddServerSideBlazor();
 
         }
 
@@ -53,7 +55,6 @@ public class Startup
                 });
             }
             
-            app.UseStaticFiles();
             app.UseRouting();
 
             app.UseAuthorization();
@@ -68,6 +69,9 @@ public class Startup
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapBlazorHub();
+                endpoints.MapFallbackToPage("/_Host");
             });
+            app.UseStaticFiles();
         }
     }

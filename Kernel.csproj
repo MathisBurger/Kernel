@@ -10,6 +10,8 @@
 <ItemGroup>
 <PackageReference Include="JWT" Version="9.0.0" />
 <PackageReference Include="Konscious.Security.Cryptography.Argon2" Version="1.2.1" />
+<PackageReference Include="Microsoft.AspNetCore.Components" Version="6.0.8" />
+<PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
 <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.4" />
 <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.4">
     <PrivateAssets>all</PrivateAssets>
@@ -23,13 +25,17 @@
 </ItemGroup>
 
 <ItemGroup>
-<Folder Include="Components" />
 <Folder Include="Migrations" />
-<Folder Include="Pages" />
+<Folder Include="wwwroot" />
 </ItemGroup>
 
 <ItemGroup>
   <_ContentIncludedByDefault Remove="Pages\Shared\_Layout.cshtml" />
+  <_ContentIncludedByDefault Remove="Pages\Shared\_Layout.razor" />
+</ItemGroup>
+
+<ItemGroup>
+  <Content Remove="Pages\_Imports.razor" />
 </ItemGroup>
 
         </Project>
