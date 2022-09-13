@@ -1,20 +1,52 @@
-﻿<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px; height: 95vh">
-    <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-      <span class="fs-4">Menu</span>
-    </a>
-    <hr>
-    <ul class="nav nav-pills flex-column mb-auto">
+﻿@using Kernel.Models.Shared
+@inject NavigationManager NavigationManager
+
+<div class="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 280px; height: 95vh">
+  <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+    <span class="fs-4">Menu</span>
+  </a>
+  <hr>
+  <ul class="nav nav-pills flex-column mb-auto">
+    @foreach (var element in GetAllSidebarElements())
+    {
       <li class="nav-item">
-        <a href="/dashboard" class="nav-link active" aria-current="page">
-          Dashboard
+        <a href="@GetHrefFromRoute(element.Route)" class="@GetClassNameDependingOnCurrentRoute(element.Route)" aria-current="page" style="text-decoration: none; color: white">
+          @element.Label
         </a>
       </li>
-      <li>
-        <a href="/modules" class="nav-link text-white">
-          Modules
-        </a>
-      </li>
-    </ul>
-    <hr>
-    <SidebarUserDropdown></SidebarUserDropdown>
-  </div>
+    }
+  </ul>
+  <hr>
+  <SidebarUserDropdown></SidebarUserDropdown>
+</div>
+
+@code
+{
+  private string GetCurrentRoute()
+  {
+    return NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+  }
+
+  private string GetHrefFromRoute(string route)
+  {
+    return "/" + route;
+  }
+
+  private string GetClassNameDependingOnCurrentRoute(string route)
+  {
+    if (GetCurrentRoute() == route)
+    {
+      return "nav-link active";
+    }
+    return "nav-link";
+  }
+
+  private SidebarElement[] GetAllSidebarElements()
+  {
+    return new[]
+    {
+      new SidebarElement("Dashboard", "dashboard"),
+      new SidebarElement("Modules", "modules")
+    };
+  }
+}
