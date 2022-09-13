@@ -54,9 +54,11 @@ public class Startup
                         .AllowAnyMethod();
                 });
             }
-            
-            app.UseRouting();
 
+            app.UseHsts();
+            app.UseRouting();
+            app.UseStaticFiles();
+            app.UseFileServer();
             app.UseAuthorization();
 
             app.UseSwagger();
@@ -72,6 +74,5 @@ public class Startup
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
-            app.UseStaticFiles();
         }
     }

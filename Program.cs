@@ -15,6 +15,7 @@ public class Program
         return new WebHostBuilder()
             .UseKestrel()
             .UseConfiguration(config)
+            .UseStaticWebAssets()
             .UseDefaultServiceProvider((context, options) =>
             {
                 options.ValidateScopes = context.HostingEnvironment.IsDevelopment();
