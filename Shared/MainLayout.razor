@@ -3,6 +3,14 @@
 <PageTitle>ModularSmartHome</PageTitle>
 
 <Navbar />
-<div class="container">
-    @Body
+
+<div class="row">
+    <div class="col-md-3">
+        <Sidebar></Sidebar>
+    </div>
+    <div class="col-md-9">
+        <div class="container">
+            @Body
+        </div>
+    </div>
 </div>
