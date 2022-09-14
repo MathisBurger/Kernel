@@ -26,7 +26,7 @@ public class Startup
             services
                 .AddSingleton<IPasswordHasher, Argon2IdHasher>()
                 .AddDbContext<DatabaseContext>()
-                .AddSingleton<DbAccess>()
+                .AddScoped<DbAccess>()
                 .AddSingleton<IAuthorization>((services) => jwtSigningKey == null
                     ? new JWTAuthorization()
                     : new JWTAuthorization(jwtSigningKey))
