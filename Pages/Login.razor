@@ -1,0 +1,44 @@
+﻿@page "/login"
+@using Kernel.Models.Request
+@inject IHttpClientFactory HttpClientFactory
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JsRuntime
+
+<form class="form-box">
+  <div class="form-outline mb-4">
+    <input type="email" id="form2Example1" class="form-control" @bind="username" @oninput="@((e) => { username = (string) e.Value;})" />
+    <label class="form-label" for="form2Example1">Username</label>
+  </div>
+  <div class="form-outline mb-4">
+    <input type="password" id="form2Example2" class="form-control" @bind="password" @oninput="@((e) => { password = (string) e.Value;})" />
+    <label class="form-label" for="form2Example2">Password</label>
+  </div>
+  <button type="button" class="btn btn-primary btn-block mb-4" @onclick="@OnLogin">Login</button>
+</form>
+
+@code
+{
+  private string username = "";
+  private string password = "";
+
+  private HttpClient httpClient;
+  
+  protected override void OnInitialized()
+  {
+    httpClient = HttpClientFactory.CreateClient("API");
+  }
+
+  private async void OnLogin()
+  {
+    var requestObj = new LoginRequest(username, password);
+    var response = await httpClient.PostAsJsonAsync("/api/Auth/Login", requestObj);
+    if (response.IsSuccessStatusCode)
+    {
+      NavigationManager.NavigateTo("/dashboard");
+    }
+    else
+    {
+      await JsRuntime.InvokeAsync<object>("Alert", "Wrong login credentials");
+    }
+  }
+}

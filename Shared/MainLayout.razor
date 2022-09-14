@@ -1,16 +1,21 @@
+@using System.Net
 @inherits LayoutComponentBase
 @inject IHttpClientFactory HttpClientFactory
+@inject NavigationManager NavigationManager
 
 <PageTitle>ModularSmartHome</PageTitle>
 
 <Navbar />
 
-<div class="row">
+<div class="row" style="height: 100vh">
     <div class="col-md-3">
-        <Sidebar></Sidebar>
+        @if (userIsAuthorized)
+        {
+            <Sidebar></Sidebar>
+        }
     </div>
     <div class="col-md-9">
-        <div class="container">
+        <div class="container" style="height: 100%">
             @Body
         </div>
     </div>
@@ -18,11 +23,23 @@
 
 @code
 {
-    private HttpClient HttpClient;
+    private HttpClient httpClient;
+    private bool userIsAuthorized = false;
     
     protected override async void OnInitialized()
     {
-        HttpClient = HttpClientFactory.CreateClient("API");
-        Console.WriteLine(await (await HttpClient.GetAsync("api/User/GetCurrentUser")).Content.ReadAsStringAsync());
+        httpClient = HttpClientFactory.CreateClient("API");
+        var currentUserResult = await httpClient.GetAsync("api/User/GetCurrentUser");
+        if (currentUserResult.StatusCode == HttpStatusCode.Unauthorized && GetCurrentRoute() != "login")
+        {
+            NavigationManager.NavigateTo("/login");
+            userIsAuthorized = false;
+        }
+        userIsAuthorized = true;
+    }
+
+    private string GetCurrentRoute()
+    {
+        return NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
     }
 }
