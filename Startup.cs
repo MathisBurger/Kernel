@@ -1,6 +1,8 @@
 using System.Text.Json.Serialization;
 using Kernel.Modules;
 using Kernel.Shared;
+using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 namespace Kernel;
@@ -36,7 +38,9 @@ public class Startup
             });
             services.AddRazorPages();
             services.AddServerSideBlazor();
-
+            services.AddHttpClient<HttpClient>("API",
+                (s) => s.BaseAddress = new Uri(Configuration.GetValue<string>("BaseAddress"))
+                );
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -74,5 +78,18 @@ public class Startup
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
+            
+            using (var scope = app.ApplicationServices.CreateScope())
+            using (var db = scope.ServiceProvider.GetService<DatabaseContext>()!)
+            {
+                try
+                {
+                    db.Database.Migrate();
+                }
+                catch
+                {
+                    Console.WriteLine("Already migrated");
+                }
+            }
         }
     }

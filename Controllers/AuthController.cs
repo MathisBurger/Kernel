@@ -20,12 +20,6 @@ public class AuthController : ControllerBase
         auth = _auth;
     }
 
-    [HttpPost("[action]")]
-    public async Task<ActionResult<User>> Register([FromBody] RegisterRequest request)
-    {
-        return await Db.UserRepository.RegisterUser(request);
-    }
-    
     /// <summary>
     /// Logs in a user
     /// </summary>
