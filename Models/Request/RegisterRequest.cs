@@ -9,5 +9,11 @@ public class RegisterRequest
     
     [JsonPropertyName("password")]
     public string Password { get; set; }
+
+    public RegisterRequest(string username, string password)
+    {
+        Username = username;
+        Password = password;
+    }
     
 }

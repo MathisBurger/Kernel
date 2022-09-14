@@ -91,5 +91,9 @@ public class Startup
                     Console.WriteLine("Already migrated");
                 }
             }
+
+            var dbAccess = app.ApplicationServices.CreateScope().ServiceProvider.GetService<DbAccess>()!;
+            var initialLoader = new InitialDataLoader(dbAccess);
+            initialLoader.LoadInitials().Wait();
         }
     }
