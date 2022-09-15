@@ -44,6 +44,7 @@ public class Startup
                 (s) => s.BaseAddress = new Uri(Configuration.GetValue<string>("BaseAddress"))
             ).AddHttpMessageHandler<CookieHandler>();
             services.AddScoped<HttpClient>(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("API"));
+            services.AddSingleton<WebStateContainer>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
