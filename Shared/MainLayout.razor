@@ -1,6 +1,7 @@
 @using System.Net
+@using Kernel.Models.Database
 @inherits LayoutComponentBase
-@inject IHttpClientFactory HttpClientFactory
+@inject HttpClient httpClient
 @inject NavigationManager NavigationManager
 
 <PageTitle>ModularSmartHome</PageTitle>
@@ -23,18 +24,18 @@
 
 @code
 {
-    private HttpClient httpClient;
-    private bool userIsAuthorized = false;
+    private bool userIsAuthorized;
     
     protected override async void OnInitialized()
     {
-        httpClient = HttpClientFactory.CreateClient("API");
         var currentUserResult = await httpClient.GetAsync("api/User/GetCurrentUser");
         if (currentUserResult.StatusCode == HttpStatusCode.Unauthorized && GetCurrentRoute() != "login")
         {
             NavigationManager.NavigateTo("/login");
             userIsAuthorized = false;
         }
+        var user = await currentUserResult.Content.ReadFromJsonAsync<User>();
+        Console.WriteLine("Username: " + user?.Username);
         userIsAuthorized = true;
     }
 

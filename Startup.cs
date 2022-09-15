@@ -1,4 +1,5 @@
 using System.Text.Json.Serialization;
+using Kernel.Extention;
 using Kernel.Modules;
 using Kernel.Shared;
 using Microsoft.AspNetCore.Components;
@@ -38,9 +39,11 @@ public class Startup
             });
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddScoped<CookieHandler>(sp => new CookieHandler());
             services.AddHttpClient<HttpClient>("API",
                 (s) => s.BaseAddress = new Uri(Configuration.GetValue<string>("BaseAddress"))
-                );
+            ).AddHttpMessageHandler<CookieHandler>();
+            services.AddScoped<HttpClient>(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("API"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

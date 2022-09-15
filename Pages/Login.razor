@@ -34,6 +34,7 @@
     var response = await httpClient.PostAsJsonAsync("/api/Auth/Login", requestObj);
     if (response.IsSuccessStatusCode)
     {
+      Console.WriteLine(response.Headers);
       NavigationManager.NavigateTo("/dashboard");
     }
     else
