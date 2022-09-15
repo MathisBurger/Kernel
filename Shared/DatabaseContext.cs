@@ -8,7 +8,8 @@ public class DatabaseContext : DbContext
     private readonly IConfiguration config;
     
     public DbSet<User> Users { get; set; }
-    
+    public DbSet<Module> Modules { get; set; }
+
     public DatabaseContext(IConfiguration config)
     {
         this.config = config;
