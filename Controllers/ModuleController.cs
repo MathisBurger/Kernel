@@ -33,6 +33,8 @@ public class ModuleController : AuthorizedControllerBase
         return Ok();
     }
 
+    [HttpPost("[action]")]
+    //[TypeFilter(typeof(ModuleAccessOnlyFilter))]
     public async Task<ActionResult<string>> GetDatabaseCredentials([FromBody] GetDatabaseCredentialsRequest request)
     {
         var module = await Db.ModuleRepository.GetTaskByKey(request.AccessKey);
