@@ -17,4 +17,9 @@ public class ModuleRepository
     {
         return await Database.Modules.FirstOrDefaultAsync(m => m.ModuleKey == key);
     }
+
+    public async Task<Module[]> FindAll()
+    {
+        return await Database.Modules.ToArrayAsync();
+    }
 }

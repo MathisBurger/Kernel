@@ -1,4 +1,5 @@
 ﻿using Kernel.Filter;
+using Kernel.Models.Database;
 using Kernel.Models.Request;
 using Kernel.Shared;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,14 @@ public class ModuleController : AuthorizedControllerBase
     public ModuleController(DbAccess _db)
     {
         Db = _db;
+    }
+
+    [HttpGet("[action]")]
+    [TypeFilter(typeof(FiltersAuthorization))]
+    public async Task<ActionResult<Module[]>> GetAllModules()
+    {
+        var modules = Db.ModuleRepository.FindAll();
+        return Ok(modules);
     }
 
     [HttpPost("[action]")]
