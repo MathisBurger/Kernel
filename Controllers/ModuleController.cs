@@ -2,6 +2,7 @@
 using Kernel.Models.Request;
 using Kernel.Shared;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Kernel.Controllers;
 
@@ -30,5 +31,16 @@ public class ModuleController : AuthorizedControllerBase
         Db.Database.Modules.Update(module);
         await Db.Database.SaveChangesAsync();
         return Ok();
+    }
+
+    public async Task<ActionResult<string>> GetDatabaseCredentials([FromBody] GetDatabaseCredentialsRequest request)
+    {
+        var module = await Db.ModuleRepository.GetTaskByKey(request.AccessKey);
+        if (module == null)
+        {
+            return BadRequest();
+        }
+
+        return Ok(Db.Database.Database.GetConnectionString());
     }
 }
