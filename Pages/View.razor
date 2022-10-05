@@ -1,4 +1,4 @@
-﻿@page "/view"
+﻿@page "/view/{ModuleName}/{Route}"
 @inject HttpClient httpClient
 
 <PageTitle>View</PageTitle>
@@ -11,11 +11,17 @@
 
 @code {
 
+    [Parameter]
+    public String ModuleName { get; set; }
+    
+    [Parameter]
+    public String Route { get; set; }
+
     private MarkupString content = new MarkupString("<div></div>");
 
   protected override async void OnInitialized()
   {
-      var url = "/api/View/View/Test/index";
+      var url = "/api/View/View/" + ModuleName + "/" + Route;
       var resp = await httpClient.GetAsync(url);
       var result = await resp.Content.ReadAsStringAsync();
       content = new MarkupString(result);
