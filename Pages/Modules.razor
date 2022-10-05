@@ -1,6 +1,7 @@
 ﻿@page "/modules"
 @using Kernel.Models.Database
 @inject HttpClient httpClient
+@inject NavigationManager NavigationManager
 
 <PageTitle>Modules</PageTitle>
 
@@ -25,7 +26,7 @@
                             <td>@module.ModuleHost</td>
                             <td>Running</td>
                             <td>@module.Created</td>
-                            <td>Action</td>
+                            <td><button class="btn btn-sm btn-primary" @onclick="() => NavigateToView(module.ModuleName)">View</button></td>
                         </tr>
                     }
         </tbody>
@@ -35,6 +36,12 @@
 @code {
 
     private Module[] modules = new Module[]{};
+
+    private void NavigateToView(string module)
+    {
+        var url = "/view/" + module + "/index";
+        NavigationManager.NavigateTo(url);
+    }
 
     protected override async void OnInitialized()
     {
