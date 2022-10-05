@@ -35,8 +35,8 @@
             NavigationManager.NavigateTo("/login");
         }
         var user = await currentUserResult.Content.ReadFromJsonAsync<User>();
-        Console.WriteLine("Username: " + user?.Username);
         WebState.CurrentUser = user;
+        StateHasChanged();
     }
 
     private string GetCurrentRoute()

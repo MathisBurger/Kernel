@@ -40,12 +40,9 @@
     {
         var resp = await httpClient.GetAsync("api/Module/GetAllModules");
         var parsed  = await resp.Content.ReadFromJsonAsync<Module[]>();
-        Console.WriteLine(parsed == null);
         if (parsed != null)
         {
-            Console.WriteLine("We go gym");
             modules = parsed;
-            Console.WriteLine(parsed[0].ModuleName);
             StateHasChanged();
         }
     }

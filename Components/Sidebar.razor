@@ -10,7 +10,7 @@
     @foreach (var element in GetAllSidebarElements())
     {
       <li class="nav-item">
-        <a href="@GetHrefFromRoute(element.Route)" class="@GetClassNameDependingOnCurrentRoute(element.Route)" aria-current="page" style="text-decoration: none; color: white">
+        <a @onclick="() => NotifyStateChanged(element)" class="@GetClassNameDependingOnCurrentRoute(element.Route)" aria-current="page" style="text-decoration: none; color: white">
           @element.Label
         </a>
       </li>
@@ -22,9 +22,24 @@
 
 @code
 {
+  private string currentRoute = "";
+
+  protected override void OnInitialized()
+  {
+    currentRoute = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+  }
+  
+  private void NotifyStateChanged(SidebarElement element)
+  {
+    NavigationManager.NavigateTo(GetHrefFromRoute(element.Route));
+    currentRoute = element.Route;
+    StateHasChanged();
+  }
+  
+  
   private string GetCurrentRoute()
   {
-    return NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+    return currentRoute;
   }
 
   private string GetHrefFromRoute(string route)
