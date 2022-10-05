@@ -1,9 +1,10 @@
-﻿@inject WebStateContainer WebState
+﻿@using Kernel.Models.Database
+@inherits WebStateAwareComponentBase
 
 <div class="dropdown">
     <a class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
         <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-        <strong>@WebState.CurrentUser?.Username</strong>
+        <strong>@_currentUser?.Username</strong>
     </a>
     <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
         <li><a class="dropdown-item" href="#">Settings</a></li>
@@ -13,10 +14,18 @@
     </ul>
 </div>
 
-@code
-{
-    protected override void OnInitialized()
+@code {
+
+    private User? _currentUser;
+    
+    protected override Boolean HandleAppStateChanged(String propertyName, WebStateContainer state)
     {
-        Console.WriteLine(WebState.CurrentUser?.Username);
+        if(propertyName != nameof(AppState.CurrentUser)) {
+            return false;
+        }
+       
+        _currentUser = state.CurrentUser;
+        return true;
     }
+
 }
