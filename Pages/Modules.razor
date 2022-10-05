@@ -1,6 +1,53 @@
 ﻿@page "/modules"
-<h3>Modules</h3>
+@using Kernel.Models.Database
+@inject HttpClient httpClient
+
+<PageTitle>Modules</PageTitle>
+
+<h1>Modules</h1>
+
+<div class="container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>HostURL</th>
+                <th>Status</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var module in modules)
+                    {
+                        <tr>
+                            <td>@module.ModuleName</td>
+                            <td>@module.ModuleHost</td>
+                            <td>Running</td>
+                            <td>@module.Created</td>
+                            <td>Action</td>
+                        </tr>
+                    }
+        </tbody>
+    </table>
+</div>
 
 @code {
-    
+
+    private Module[] modules = new Module[]{};
+
+    protected override async void OnInitialized()
+    {
+        var resp = await httpClient.GetAsync("api/Module/GetAllModules");
+        var parsed  = await resp.Content.ReadFromJsonAsync<Module[]>();
+        Console.WriteLine(parsed == null);
+        if (parsed != null)
+        {
+            Console.WriteLine("We go gym");
+            modules = parsed;
+            Console.WriteLine(parsed[0].ModuleName);
+            StateHasChanged();
+        }
+    }
+
 }
