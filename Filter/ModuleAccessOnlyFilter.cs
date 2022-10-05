@@ -19,23 +19,13 @@ public class ModuleAccessOnlyFilter : ActionFilterAttribute
 
     public override async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
-        Stream req = context.HttpContext.Request.Body;
-        req.Seek(0, System.IO.SeekOrigin.Begin);
-        string json = new StreamReader(req).ReadToEnd();
-
-        IModuleRequest? input = null;
-        try
-        {
-            input = JsonConvert.DeserializeObject<IModuleRequest>(json);
-        }
-
-        catch (Exception ex)
+        var req = context.ActionArguments.Values.FirstOrDefault();
+        if (null == req)
         {
             context.Result = new AuthorizedControllerBase().Unauthorized();
             return;
         }
-
-        var module = await Db.ModuleRepository.GetTaskByKey(input.AccessKey);
+        var module = await Db.ModuleRepository.GetTaskByKey((req as IModuleRequest).AccessKey);
         if (module == null)
         {
             context.Result = new AuthorizedControllerBase().Unauthorized();

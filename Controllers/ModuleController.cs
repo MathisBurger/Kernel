@@ -22,7 +22,7 @@ public class ModuleController : AuthorizedControllerBase
     [TypeFilter(typeof(FiltersAuthorization))]
     public async Task<ActionResult<Module[]>> GetAllModules()
     {
-        var modules = Db.ModuleRepository.FindAll();
+        var modules = await Db.ModuleRepository.FindAll();
         return Ok(modules);
     }
 
