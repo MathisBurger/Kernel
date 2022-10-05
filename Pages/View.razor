@@ -1,0 +1,24 @@
+﻿@page "/view"
+@inject HttpClient httpClient
+
+<PageTitle>View</PageTitle>
+
+<h1>View</h1>
+
+
+@content
+
+
+@code {
+
+    private MarkupString content = new MarkupString("<div></div>");
+
+  protected override async void OnInitialized()
+  {
+      var url = "/api/View/View/Test/index";
+      var resp = await httpClient.GetAsync(url);
+      var result = await resp.Content.ReadAsStringAsync();
+      content = new MarkupString(result);
+      StateHasChanged();
+  }
+}
