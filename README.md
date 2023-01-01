@@ -1,11 +1,14 @@
-# New ASP .NET project
+# Kernel
 
 ## Project Information
 
-This is an auto-generated `README.md` file, because this project is created using
-the <a href="https://github.com/SoftwareTemplates/cli">SoftwareTemplates CLI</a>.
+This is the kernel of the whole modular smart home application. You can run it in standalone mode and it will only 
+serve the scaffold of the application. 
 
-## Template information
+## Usage
 
-This is the official template for an ASP .NET backend with 
-postgres and user auth support out of the box.
+Find it out yourself. There will be more documententation with the development of this project.
+
+## Future development
+
+This project will be developed not that quickly, because it is a big side project of me. I will work most of my time on my other projects.
